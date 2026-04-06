@@ -123,6 +123,27 @@
             background: #f8d7da;
             border-left: 4px solid #dc3545;
         }
+        .result a {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .result a:hover {
+            text-decoration: underline;
+        }
+        .url-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin: 4px 0;
+            font-size: 12px;
+        }
+        .url-link:hover {
+            opacity: 0.9;
+            text-decoration: none !important;
+        }
         .hidden {
             display: none;
         }
@@ -263,6 +284,64 @@
                 .join('');
         }
 
+        // Helper function to detect URLs in text
+        function isUrl(str) {
+            if (typeof str !== 'string') return false;
+            const urlPattern = /^(https?:\/\/|www\.)[\w\-\.]+(\.[\w\-]+)+[\w\-\.\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.]+$/i;
+            return urlPattern.test(str);
+        }
+
+        // Convert JSON object to HTML with clickable links
+        function formatJsonWithLinks(obj, indent = 0) {
+            const spaces = '  '.repeat(indent);
+            
+            if (obj === null) return 'null';
+            if (typeof obj === 'boolean') return obj.toString();
+            if (typeof obj === 'number') return obj.toString();
+            
+            if (typeof obj === 'string') {
+                if (isUrl(obj)) {
+                    return `"<a href="${obj}" target="_blank" class="url-link">🔗 ${obj}</a>"`;
+                }
+                return `"${obj.replace(/"/g, '\\"')}"`;
+            }
+            
+            if (Array.isArray(obj)) {
+                if (obj.length === 0) return '[]';
+                let html = '[\n';
+                for (let i = 0; i < obj.length; i++) {
+                    html += spaces + '  ' + formatJsonWithLinks(obj[i], indent + 1);
+                    if (i < obj.length - 1) html += ',';
+                    html += '\n';
+                }
+                html += spaces + ']';
+                return html;
+            }
+            
+            if (typeof obj === 'object') {
+                const keys = Object.keys(obj);
+                if (keys.length === 0) return '{}';
+                let html = '{\n';
+                for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+                    html += spaces + `  "${key}": `;
+                    const value = obj[key];
+                    // For URL values, add a line break and button style
+                    if (typeof value === 'string' && isUrl(value)) {
+                        html += `"<a href="${value}" target="_blank" class="url-link">🔗 ${value}</a>"`;
+                    } else {
+                        html += formatJsonWithLinks(value, indent + 1);
+                    }
+                    if (i < keys.length - 1) html += ',';
+                    html += '\n';
+                }
+                html += spaces + '}';
+                return html;
+            }
+            
+            return String(obj);
+        }
+
         // Send request
         async function sendRequest() {
             const btn = document.getElementById('sendBtn');
@@ -365,9 +444,12 @@ ${accessSign}`;
                     resultContent.className = 'result error';
                 }
 
-                resultContent.textContent = typeof responseData === 'string' 
-                    ? responseData 
-                    : JSON.stringify(responseData, null, 2);
+                // Format result with clickable links
+                if (typeof responseData === 'string') {
+                    resultContent.innerHTML = responseData;
+                } else {
+                    resultContent.innerHTML = formatJsonWithLinks(responseData);
+                }
 
             } catch (error) {
                 resultSection.classList.remove('hidden');
