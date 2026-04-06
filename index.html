@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThunderPay API Test Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .input-group input {
+            flex: 1;
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .result.success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .result.error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        .hidden {
+            display: none;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .status-success {
+            background: #28a745;
+            color: white;
+        }
+        .status-error {
+            background: #dc3545;
+            color: white;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ ThunderPay API Test Tool</h1>
+        
+        <div class="card">
+            <h2>🔑 Merchant Configuration</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>ACCESS_KEY</label>
+                    <input type="text" id="accessKey" placeholder="Enter Access Key">
+                </div>
+                <div class="form-group">
+                    <label>SECRET_KEY</label>
+                    <input type="text" id="secretKey" placeholder="Enter Secret Key">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>API Base URL</label>
+                <input type="text" id="baseUrl" value="https://thunderpay.app" placeholder="https://thunderpay.app">
+            </div>
+            <div class="form-group">
+                <label>API Path</label>
+                <input type="text" id="apiPath" value="/api/place/upi/vipin" placeholder="/api/place/upi/vipin">
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📝 Order Information</h2>
+            <div class="form-group">
+                <label>Order No</label>
+                <div class="input-group">
+                    <input type="text" id="orderNo" placeholder="Click button on the right to generate">
+                    <button type="button" class="btn-secondary" onclick="generateOrderNo()">🎲 Random Generate</button>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Order Amount</label>
+                    <input type="number" id="orderAmount" value="300" placeholder="Enter amount">
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" value="Ravi Chandrana" placeholder="Enter full name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Notify URL</label>
+                <input type="url" id="notifyUrl" value="http://www.xxx.com/api" placeholder="http://www.xxx.com/api">
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Send Request</h2>
+            <button type="button" class="btn-primary" onclick="sendRequest()" id="sendBtn">
+                📤 Send API Request
+            </button>
+            
+            <div id="resultSection" class="hidden">
+                <div style="margin-top: 16px;">
+                    <span id="statusBadge" class="status-badge"></span>
+                </div>
+                <div class="result" id="resultContent"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📋 Generated Signature Info (Debug)</h2>
+            <div class="result" id="debugInfo" style="font-size: 12px; color: #666;">
+                Signature details will be displayed after sending the request...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate random order number
+        function generateOrderNo() {
+            const prefix = 'k_';
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            let result = prefix;
+            for (let i = 0; i < 20; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+                // Add hyphen every 4 characters for readability
+                if (i === 3 || i === 7 || i === 11) {
+                    result += '-';
+                }
+            }
+            document.getElementById('orderNo').value = result;
+        }
+
+        // Generate HMAC-SHA256 signature
+        async function generateHmacSignature(secret, message) {
+            const encoder = new TextEncoder();
+            const keyData = encoder.encode(secret);
+            const messageData = encoder.encode(message);
+            
+            const cryptoKey = await crypto.subtle.importKey(
+                'raw',
+                keyData,
+                { name: 'HMAC', hash: 'SHA-256' },
+                false,
+                ['sign']
+            );
+            
+            const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData);
+            return Array.from(new Uint8Array(signature))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+
+        // Send request
+        async function sendRequest() {
+            const btn = document.getElementById('sendBtn');
+            const resultSection = document.getElementById('resultSection');
+            const resultContent = document.getElementById('resultContent');
+            const statusBadge = document.getElementById('statusBadge');
+            const debugInfo = document.getElementById('debugInfo');
+
+            // Get input values
+            const accessKey = document.getElementById('accessKey').value.trim();
+            const secretKey = document.getElementById('secretKey').value.trim();
+            const baseUrl = document.getElementById('baseUrl').value.trim();
+            const apiPath = document.getElementById('apiPath').value.trim();
+            const orderNo = document.getElementById('orderNo').value.trim();
+            const orderAmount = parseFloat(document.getElementById('orderAmount').value);
+            const fullName = document.getElementById('fullName').value.trim();
+            const notifyUrl = document.getElementById('notifyUrl').value.trim();
+
+            // Validation
+            if (!accessKey || !secretKey) {
+                alert('Please fill in ACCESS_KEY and SECRET_KEY');
+                return;
+            }
+            if (!orderNo) {
+                alert('Please generate or enter Order No');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '📤 Sending...';
+
+            try {
+                // Build request body
+                const body = {
+                    order_no: orderNo,
+                    order_amount: orderAmount,
+                    fullname: fullName,
+                    notify_url: notifyUrl
+                };
+
+                // Compact JSON (no spaces, consistent with Python)
+                const jsonBody = JSON.stringify(body, Object.keys(body), 0);
+                
+                // Generate timestamp (milliseconds)
+                const timestamp = Date.now().toString();
+                
+                // Build signature string
+                const msg = apiPath + timestamp + jsonBody;
+                
+                // Generate signature
+                const accessSign = await generateHmacSignature(secretKey, msg);
+
+                // Display debug info
+                debugInfo.textContent = `Signature String (msg):
+${msg}
+
+JSON Body:
+${jsonBody}
+
+Timestamp:
+${timestamp}
+
+Generated Signature:
+${accessSign}`;
+
+                // Send request
+                const url = baseUrl.replace(/\/$/, '') + apiPath;
+                const headers = {
+                    'ACCESS-KEY': accessKey,
+                    'ACCESS-TIMESTAMP': timestamp,
+                    'ACCESS-SIGN': accessSign,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: jsonBody
+                });
+
+                const responseText = await response.text();
+                let responseData;
+                try {
+                    responseData = JSON.parse(responseText);
+                } catch {
+                    responseData = responseText;
+                }
+
+                // Display result
+                resultSection.classList.remove('hidden');
+                
+                if (response.ok) {
+                    statusBadge.className = 'status-badge status-success';
+                    statusBadge.textContent = `✅ ${response.status} ${response.statusText}`;
+                    resultContent.className = 'result success';
+                } else {
+                    statusBadge.className = 'status-badge status-error';
+                    statusBadge.textContent = `❌ ${response.status} ${response.statusText}`;
+                    resultContent.className = 'result error';
+                }
+
+                resultContent.textContent = typeof responseData === 'string' 
+                    ? responseData 
+                    : JSON.stringify(responseData, null, 2);
+
+            } catch (error) {
+                resultSection.classList.remove('hidden');
+                statusBadge.className = 'status-badge status-error';
+                statusBadge.textContent = '❌ Request Failed';
+                resultContent.className = 'result error';
+                resultContent.textContent = `Error: ${error.message}`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📤 Send API Request';
+            }
+        }
+
+        // Generate a default order number on page load
+        generateOrderNo();
+    </script>
+</body>
+</html>
