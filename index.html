@@ -5,465 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThunderPay API Test Tool</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        .card h2 {
-            font-size: 18px;
-            margin-bottom: 16px;
-            color: #333;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 8px;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: #555;
-            font-size: 14px;
-        }
-        input[type="text"],
-        input[type="number"],
-        input[type="url"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
-        .input-group input {
-            flex: 1;
-        }
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            font-size: 16px;
-        }
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .result {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            white-space: pre-wrap;
-            word-break: break-all;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .result.success {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-        }
-        .result.error {
-            background: #f8d7da;
-            border-left: 4px solid #dc3545;
-        }
-        .result a {
-            color: #667eea;
-            text-decoration: none;
-            word-break: break-all;
-        }
-        .result a:hover {
-            text-decoration: underline;
-        }
-        .url-link {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white !important;
-            padding: 8px 16px;
-            border-radius: 6px;
-            margin: 4px 0;
-            font-size: 12px;
-        }
-        .url-link:hover {
-            opacity: 0.9;
-            text-decoration: none !important;
-        }
-        .hidden {
-            display: none;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .status-success {
-            background: #28a745;
-            color: white;
-        }
-        .status-error {
-            background: #dc3545;
-            color: white;
-        }
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        @media (max-width: 600px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { text-align: center; color: white; margin-bottom: 30px; font-size: 28px; }
+        .card { background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .card h2 { font-size: 18px; margin-bottom: 16px; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 8px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #555; font-size: 14px; }
+        input[type="text"], input[type="number"], input[type="url"] { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: border-color 0.3s; }
+        input:focus { outline: none; border-color: #667eea; }
+        .input-group { display: flex; gap: 10px; }
+        .input-group input { flex: 1; }
+        button { padding: 12px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 100%; padding: 16px; font-size: 16px; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-success { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; width: 100%; padding: 16px; font-size: 16px; }
+        .btn-success:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-success:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .result { background: #f8f9fa; border-radius: 8px; padding: 16px; margin-top: 16px; font-family: 'Courier New', monospace; font-size: 13px; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto; }
+        .result.success { background: #d4edda; border-left: 4px solid #28a745; }
+        .result.error { background: #f8d7da; border-left: 4px solid #dc3545; }
+        .result a { color: #667eea; text-decoration: none; word-break: break-all; }
+        .result a:hover { text-decoration: underline; }
+        .url-link { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white !important; padding: 8px 16px; border-radius: 6px; margin: 4px 0; font-size: 12px; }
+        .url-link:hover { opacity: 0.9; text-decoration: none !important; }
+        .hidden { display: none; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+        .status-success { background: #28a745; color: white; }
+        .status-error { background: #dc3545; color: white; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .tab-nav { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 12px; }
+        .tab-btn { flex: 1; padding: 12px 20px; background: transparent; color: white; border-radius: 8px; font-size: 14px; font-weight: 600; }
+        .tab-btn.active { background: white; color: #667eea; }
+        @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } .tab-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>⚡ ThunderPay API Test Tool</h1>
-        
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('create')">📝 Create Order</button>
+            <button class="tab-btn" onclick="switchTab('query')">🔍 Query Order</button>
+        </div>
         <div class="card">
             <h2>🔑 Merchant Configuration</h2>
             <div class="grid-2">
-                <div class="form-group">
-                    <label>ACCESS_KEY</label>
-                    <input type="text" id="accessKey" placeholder="Enter Access Key">
-                </div>
-                <div class="form-group">
-                    <label>SECRET_KEY</label>
-                    <input type="text" id="secretKey" placeholder="Enter Secret Key">
-                </div>
+                <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="accessKey" placeholder="Enter Access Key"></div>
+                <div class="form-group"><label>SECRET_KEY</label><input type="text" id="secretKey" placeholder="Enter Secret Key"></div>
             </div>
-            <div class="form-group">
-                <label>API Base URL</label>
-                <input type="text" id="baseUrl" value="https://thunderpay.app" placeholder="https://thunderpay.app">
-            </div>
-            <div class="form-group">
-                <label>API Path</label>
-                <input type="text" id="apiPath" value="/api/place/upi/vipin" placeholder="/api/place/upi/vipin">
-            </div>
+            <div class="form-group"><label>API Base URL</label><input type="text" id="baseUrl" value="https://thunderpay.app"></div>
         </div>
 
-        <div class="card">
-            <h2>📝 Order Information</h2>
-            <div class="form-group">
-                <label>Order No</label>
-                <div class="input-group">
-                    <input type="text" id="orderNo" placeholder="Click button on the right to generate">
-                    <button type="button" class="btn-secondary" onclick="generateOrderNo()">🎲 Random Generate</button>
-                </div>
+        <div id="createTab">
+            <div class="card">
+                <h2>📝 Order Information</h2>
+                <div class="form-group"><label>API Path</label><input type="text" id="apiPath" value="/api/place/upi/vipin"></div>
+                <div class="form-group"><label>Order No</label><div class="input-group"><input type="text" id="orderNo"><button class="btn-secondary" onclick="generateOrderNo()">🎲 Random</button></div></div>
+                <div class="grid-2"><div class="form-group"><label>Order Amount</label><input type="number" id="orderAmount" value="300"></div><div class="form-group"><label>Full Name</label><input type="text" id="fullName" value="Ravi Chandrana"></div></div>
+                <div class="form-group"><label>Notify URL</label><input type="url" id="notifyUrl" value="http://www.xxx.com/api"></div>
             </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Order Amount</label>
-                    <input type="number" id="orderAmount" value="300" placeholder="Enter amount">
-                </div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="fullName" value="Ravi Chandrana" placeholder="Enter full name">
-                </div>
+            <div class="card">
+                <h2>🚀 Send Request</h2>
+                <button class="btn-primary" onclick="sendRequest()" id="sendBtn">📤 Send API Request</button>
+                <div id="resultSection" class="hidden"><span id="statusBadge" class="status-badge"></span><div class="result" id="resultContent"></div></div>
             </div>
-            <div class="form-group">
-                <label>Notify URL</label>
-                <input type="url" id="notifyUrl" value="http://www.xxx.com/api" placeholder="http://www.xxx.com/api">
-            </div>
+            <div class="card"><h2>📋 Signature Debug</h2><div class="result" id="debugInfo">Signature details will be displayed...</div></div>
         </div>
 
-        <div class="card">
-            <h2>🚀 Send Request</h2>
-            <button type="button" class="btn-primary" onclick="sendRequest()" id="sendBtn">
-                📤 Send API Request
-            </button>
-            
-            <div id="resultSection" class="hidden">
-                <div style="margin-top: 16px;">
-                    <span id="statusBadge" class="status-badge"></span>
-                </div>
-                <div class="result" id="resultContent"></div>
+        <div id="queryTab" class="hidden">
+            <div class="card">
+                <h2>🔍 Query Order</h2>
+                <div class="form-group"><label>Query Type</label><div class="input-group"><button class="btn-secondary" id="queryTypePayment" onclick="setQueryType('payment')" style="flex:1;background:#667eea">Payment ID</button><button class="btn-secondary" id="queryTypeTracking" onclick="setQueryType('tracking')" style="flex:1">Tracking ID</button></div></div>
+                <div class="form-group"><label id="queryLabel">Payment ID</label><input type="text" id="queryId" placeholder="Enter Payment ID"></div>
+                <div class="form-group"><label>Query API Path</label><input type="text" id="queryApiPath" value="/api/order/query"></div>
             </div>
-        </div>
-
-        <div class="card">
-            <h2>📋 Generated Signature Info (Debug)</h2>
-            <div class="result" id="debugInfo" style="font-size: 12px; color: #666;">
-                Signature details will be displayed after sending the request...
+            <div class="card">
+                <h2>🔍 Query</h2>
+                <button class="btn-success" onclick="queryOrder()" id="queryBtn">🔍 Query Order Status</button>
+                <div id="queryResultSection" class="hidden"><span id="queryStatusBadge" class="status-badge"></span><div class="result" id="queryResultContent"></div></div>
             </div>
+            <div class="card"><h2>📋 Query Debug</h2><div class="result" id="queryDebugInfo">Signature details will be displayed...</div></div>
         </div>
     </div>
 
     <script>
-        // Generate random order number
-        function generateOrderNo() {
-            const prefix = 'k_';
-            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-            let result = prefix;
-            for (let i = 0; i < 20; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-                // Add hyphen every 4 characters for readability
-                if (i === 3 || i === 7 || i === 11) {
-                    result += '-';
-                }
-            }
-            document.getElementById('orderNo').value = result;
-        }
-
-        // Generate HMAC-SHA256 signature
-        async function generateHmacSignature(secret, message) {
-            const encoder = new TextEncoder();
-            const keyData = encoder.encode(secret);
-            const messageData = encoder.encode(message);
-            
-            const cryptoKey = await crypto.subtle.importKey(
-                'raw',
-                keyData,
-                { name: 'HMAC', hash: 'SHA-256' },
-                false,
-                ['sign']
-            );
-            
-            const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData);
-            return Array.from(new Uint8Array(signature))
-                .map(b => b.toString(16).padStart(2, '0'))
-                .join('');
-        }
-
-        // Helper function to detect URLs in text
-        function isUrl(str) {
-            if (typeof str !== 'string') return false;
-            const urlPattern = /^(https?:\/\/|www\.)[\w\-\.]+(\.[\w\-]+)+[\w\-\.\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.]+$/i;
-            return urlPattern.test(str);
-        }
-
-        // Convert JSON object to HTML with clickable links
-        function formatJsonWithLinks(obj, indent = 0) {
-            const spaces = '  '.repeat(indent);
-            
-            if (obj === null) return 'null';
-            if (typeof obj === 'boolean') return obj.toString();
-            if (typeof obj === 'number') return obj.toString();
-            
-            if (typeof obj === 'string') {
-                if (isUrl(obj)) {
-                    return `"<a href="${obj}" target="_blank" class="url-link">🔗 ${obj}</a>"`;
-                }
-                return `"${obj.replace(/"/g, '\\"')}"`;
-            }
-            
-            if (Array.isArray(obj)) {
-                if (obj.length === 0) return '[]';
-                let html = '[\n';
-                for (let i = 0; i < obj.length; i++) {
-                    html += spaces + '  ' + formatJsonWithLinks(obj[i], indent + 1);
-                    if (i < obj.length - 1) html += ',';
-                    html += '\n';
-                }
-                html += spaces + ']';
-                return html;
-            }
-            
-            if (typeof obj === 'object') {
-                const keys = Object.keys(obj);
-                if (keys.length === 0) return '{}';
-                let html = '{\n';
-                for (let i = 0; i < keys.length; i++) {
-                    const key = keys[i];
-                    html += spaces + `  "${key}": `;
-                    const value = obj[key];
-                    // For URL values, add a line break and button style
-                    if (typeof value === 'string' && isUrl(value)) {
-                        html += `"<a href="${value}" target="_blank" class="url-link">🔗 ${value}</a>"`;
-                    } else {
-                        html += formatJsonWithLinks(value, indent + 1);
-                    }
-                    if (i < keys.length - 1) html += ',';
-                    html += '\n';
-                }
-                html += spaces + '}';
-                return html;
-            }
-            
-            return String(obj);
-        }
-
-        // Send request
-        async function sendRequest() {
-            const btn = document.getElementById('sendBtn');
-            const resultSection = document.getElementById('resultSection');
-            const resultContent = document.getElementById('resultContent');
-            const statusBadge = document.getElementById('statusBadge');
-            const debugInfo = document.getElementById('debugInfo');
-
-            // Get input values
-            const accessKey = document.getElementById('accessKey').value.trim();
-            const secretKey = document.getElementById('secretKey').value.trim();
-            const baseUrl = document.getElementById('baseUrl').value.trim();
-            const apiPath = document.getElementById('apiPath').value.trim();
-            const orderNo = document.getElementById('orderNo').value.trim();
-            const orderAmount = parseFloat(document.getElementById('orderAmount').value);
-            const fullName = document.getElementById('fullName').value.trim();
-            const notifyUrl = document.getElementById('notifyUrl').value.trim();
-
-            // Validation
-            if (!accessKey || !secretKey) {
-                alert('Please fill in ACCESS_KEY and SECRET_KEY');
-                return;
-            }
-            if (!orderNo) {
-                alert('Please generate or enter Order No');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = '📤 Sending...';
-
-            try {
-                // Build request body
-                const body = {
-                    order_no: orderNo,
-                    order_amount: orderAmount,
-                    fullname: fullName,
-                    notify_url: notifyUrl
-                };
-
-                // Compact JSON (no spaces, consistent with Python)
-                const jsonBody = JSON.stringify(body, Object.keys(body), 0);
-                
-                // Generate timestamp (milliseconds)
-                const timestamp = Date.now().toString();
-                
-                // Build signature string
-                const msg = apiPath + timestamp + jsonBody;
-                
-                // Generate signature
-                const accessSign = await generateHmacSignature(secretKey, msg);
-
-                // Display debug info
-                debugInfo.textContent = `Signature String (msg):
-${msg}
-
-JSON Body:
-${jsonBody}
-
-Timestamp:
-${timestamp}
-
-Generated Signature:
-${accessSign}`;
-
-                // Send request
-                const url = baseUrl.replace(/\/$/, '') + apiPath;
-                const headers = {
-                    'ACCESS-KEY': accessKey,
-                    'ACCESS-TIMESTAMP': timestamp,
-                    'ACCESS-SIGN': accessSign,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                };
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: jsonBody
-                });
-
-                const responseText = await response.text();
-                let responseData;
-                try {
-                    responseData = JSON.parse(responseText);
-                } catch {
-                    responseData = responseText;
-                }
-
-                // Display result
-                resultSection.classList.remove('hidden');
-                
-                if (response.ok) {
-                    statusBadge.className = 'status-badge status-success';
-                    statusBadge.textContent = `✅ ${response.status} ${response.statusText}`;
-                    resultContent.className = 'result success';
-                } else {
-                    statusBadge.className = 'status-badge status-error';
-                    statusBadge.textContent = `❌ ${response.status} ${response.statusText}`;
-                    resultContent.className = 'result error';
-                }
-
-                // Format result with clickable links
-                if (typeof responseData === 'string') {
-                    resultContent.innerHTML = responseData;
-                } else {
-                    resultContent.innerHTML = formatJsonWithLinks(responseData);
-                }
-
-            } catch (error) {
-                resultSection.classList.remove('hidden');
-                statusBadge.className = 'status-badge status-error';
-                statusBadge.textContent = '❌ Request Failed';
-                resultContent.className = 'result error';
-                resultContent.textContent = `Error: ${error.message}`;
-            } finally {
-                btn.disabled = false;
-                btn.textContent = '📤 Send API Request';
-            }
-        }
-
-        // Generate a default order number on page load
+        let currentQueryType='payment';
+        function switchTab(t){document.getElementById('createTab').classList.toggle('hidden',t!=='create');document.getElementById('queryTab').classList.toggle('hidden',t!=='query');document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(t==='create'&&i===0)||(t==='query'&&i===1)))}
+        function setQueryType(t){currentQueryType=t;document.getElementById('queryTypePayment').style.background=t==='payment'?'#667eea':'#6c757d';document.getElementById('queryTypeTracking').style.background=t==='tracking'?'#667eea':'#6c757d';document.getElementById('queryLabel').textContent=t==='payment'?'Payment ID':'Tracking ID';document.getElementById('queryId').placeholder='Enter '+(t==='payment'?'Payment ID':'Tracking ID')}
+        function generateOrderNo(){const p='k_',c='abcdefghijklmnopqrstuvwxyz0123456789';let r=p;for(let i=0;i<20;i++){r+=c[Math.floor(Math.random()*c.length)];if(i===3||i===7||i===11)r+='-'}document.getElementById('orderNo').value=r}
+        async function generateHmacSignature(s,m){const e=new TextEncoder(),k=await crypto.subtle.importKey('raw',e.encode(s),{name:'HMAC',hash:'SHA-256'},false,['sign']),sig=await crypto.subtle.sign('HMAC',k,e.encode(m));return Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+        function isUrl(s){return typeof s==='string'&&/^(https?:\/\/|www\.)[\w\-\.]+(\.[\w\-]+)+[\w\-\.\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.]+$/i.test(s)}
+        function formatJsonWithLinks(o,i=0){const sp='  '.repeat(i);if(o===null)return'null';if(typeof o==='boolean')return o.toString();if(typeof o==='number')return o.toString();if(typeof o==='string')return isUrl(o)?`"<a href=\"${o}\" target=\"_blank\" class=\"url-link\">🔗 ${o}</a>\"`:`\"${o.replace(/\"/g,'\\\\\"')}\"`;if(Array.isArray(o)){if(!o.length)return'[]';let h='[\\n';for(let j=0;j<o.length;j++)h+=sp+'  '+formatJsonWithLinks(o[j],i+1)+(j<o.length-1?',':'')+'\\n';return h+sp+']'}if(typeof o==='object'){const k=Object.keys(o);if(!k.length)return'{}';let h='{\\n';for(let j=0;j<k.length;j++){h+=sp+`  \"${k[j]}\": `;const v=o[k[j]];h+=typeof v==='string'&&isUrl(v)?`\"<a href=\"${v}\" target=\"_blank\" class=\"url-link\">🔗 ${v}</a>\"`:formatJsonWithLinks(v,i+1);if(j<k.length-1)h+=',';h+='\\n'}return h+sp+'}'}return String(o)}
+        async function sendRequest(){const b=document.getElementById('sendBtn'),rs=document.getElementById('resultSection'),rc=document.getElementById('resultContent'),sb=document.getElementById('statusBadge'),di=document.getElementById('debugInfo'),ak=document.getElementById('accessKey').value.trim(),sk=document.getElementById('secretKey').value.trim(),bu=document.getElementById('baseUrl').value.trim(),ap=document.getElementById('apiPath').value.trim(),on=document.getElementById('orderNo').value.trim(),oa=parseFloat(document.getElementById('orderAmount').value),fn=document.getElementById('fullName').value.trim(),nu=document.getElementById('notifyUrl').value.trim();if(!ak||!sk){alert('Please fill in ACCESS_KEY and SECRET_KEY');return}if(!on){alert('Please generate or enter Order No');return}b.disabled=true;b.textContent='📤 Sending...';try{const body={order_no:on,order_amount:oa,fullname:fn,notify_url:nu},jb=JSON.stringify(body,Object.keys(body),0),ts=Date.now().toString(),msg=ap+ts+jb,asig=await generateHmacSignature(sk,msg);di.textContent=`Signature String (msg):\\n${msg}\\n\\nJSON Body:\\n${jb}\\n\\nTimestamp:\\n${ts}\\n\\nGenerated Signature:\\n${asig}`;const url=bu.replace(/\\/$/,'')+ap,headers={'ACCESS-KEY':ak,'ACCESS-TIMESTAMP':ts,'ACCESS-SIGN':asig,'Content-Type':'application/json','Accept':'application/json'},resp=await fetch(url,{method:'POST',headers:headers,body:jb}),rt=await resp.text();let rd;try{rd=JSON.parse(rt)}catch{rd=rt}rs.classList.remove('hidden');if(resp.ok){sb.className='status-badge status-success';sb.textContent=`✅ ${resp.status} ${resp.statusText}`;rc.className='result success'}else{sb.className='status-badge status-error';sb.textContent=`❌ ${resp.status} ${resp.statusText}`;rc.className='result error'}rc.innerHTML=typeof rd==='string'?rd:formatJsonWithLinks(rd)}catch(e){rs.classList.remove('hidden');sb.className='status-badge status-error';sb.textContent='❌ Request Failed';rc.className='result error';rc.textContent=`Error: ${e.message}`}finally{b.disabled=false;b.textContent='📤 Send API Request'}}
+        async function queryOrder(){const b=document.getElementById('queryBtn'),rs=document.getElementById('queryResultSection'),rc=document.getElementById('queryResultContent'),sb=document.getElementById('queryStatusBadge'),di=document.getElementById('queryDebugInfo'),ak=document.getElementById('accessKey').value.trim(),sk=document.getElementById('secretKey').value.trim(),bu=document.getElementById('baseUrl').value.trim(),qp=document.getElementById('queryApiPath').value.trim(),qi=document.getElementById('queryId').value.trim();if(!ak||!sk){alert('Please fill in ACCESS_KEY and SECRET_KEY');return}if(!qi){alert(`Please enter ${currentQueryType==='payment'?'Payment ID':'Tracking ID'}`);return}b.disabled=true;b.textContent='🔍 Querying...';try{const body=currentQueryType==='payment'?{payment_id:qi}:{tracking:qi},jb=JSON.stringify(body,Object.keys(body),0),ts=Date.now().toString(),msg=qp+ts+jb,asig=await generateHmacSignature(sk,msg);di.textContent=`Query Type: ${currentQueryType.toUpperCase()}\\nQuery ID: ${qi}\\n\\nSignature String (msg):\\n${msg}\\n\\nJSON Body:\\n${jb}\\n\\nTimestamp:\\n${ts}\\n\\nGenerated Signature:\\n${asig}`;const url=bu.replace(/\\/$/,'')+qp,headers={'ACCESS-KEY':ak,'ACCESS-TIMESTAMP':ts,'ACCESS-SIGN':asig,'Content-Type':'application/json','Accept':'application/json'},resp=await fetch(url,{method:'POST',headers:headers,body:jb}),rt=await resp.text();let rd;try{rd=JSON.parse(rt)}catch{rd=rt}rs.classList.remove('hidden');if(resp.ok){sb.className='status-badge status-success';sb.textContent=`✅ ${resp.status} ${resp.statusText}`;rc.className='result success'}else{sb.className='status-badge status-error';sb.textContent=`❌ ${resp.status} ${resp.statusText}`;rc.className='result error'}rc.innerHTML=typeof rd==='string'?rd:formatJsonWithLinks(rd)}catch(e){rs.classList.remove('hidden');sb.className='status-badge status-error';sb.textContent='❌ Query Failed';rc.className='result error';rc.textContent=`Error: ${e.message}`}finally{b.disabled=false;b.textContent='🔍 Query Order Status'}}
         generateOrderNo();
     </script>
 </body>
