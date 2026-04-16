@@ -64,8 +64,8 @@
             <div class="card">
                 <h2>🔑 Merchant Configuration</h2>
                 <div class="grid-2">
-                    <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="tpAccessKey" placeholder="Enter Access Key" value="YFAKkawLDKXYjdoB"></div>
-                    <div class="form-group"><label>SECRET_KEY</label><input type="text" id="tpSecretKey" placeholder="Enter Secret Key" value="UQODmzrJKGkcZDWeDUSchKZyNvouVEWR"></div>
+                    <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="tpAccessKey" placeholder="Enter Access Key"></div>
+                    <div class="form-group"><label>SECRET_KEY</label><input type="text" id="tpSecretKey" placeholder="Enter Secret Key"></div>
                 </div>
                 <div class="form-group"><label>API Base URL</label><input type="text" id="tpBaseUrl" value="https://thunderpay.app"></div>
             </div>
@@ -229,7 +229,7 @@
                 if (cardNumber.replace(/\s/g, '') !== '') {
                     body.h2h = {
                         cardholder: cardHolder,
-                        cardnumber: cardNumber,
+                        card_holder: cardHolder,
                         month: cardMonth,
                         year: cardYear,
                         cvv: cardCvv
