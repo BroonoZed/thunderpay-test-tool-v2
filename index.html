@@ -219,16 +219,20 @@
             if (!on) { alert('Please generate or enter Order No'); return; }
             b.disabled = true; b.textContent = '📤 Sending...';
             try {
+                const cardHolder = document.getElementById('tpCardHolder').value.trim();
                 const cardNumber = document.getElementById('tpCardNumber').value.trim();
+                const cardMonth = document.getElementById('tpCardMonth').value.trim();
+                const cardYear = document.getElementById('tpCardYear').value.trim();
+                const cardCvv = document.getElementById('tpCardCvv').value.trim();
                 const body = { order_no: on, order_amount: oa, fullname: fn, notify_url: nu };
-                // Wrap card fields under "h2h" — only included if cardNumber is provided
-                if (cardNumber) {
+                // Wrap card fields under "h2h" — only included if cardNumber has actual digits
+                if (/\d+/.test(cardNumber)) {
                     body.h2h = {
-                        cardholder: document.getElementById('tpCardHolder').value.trim(),
+                        cardholder: cardHolder,
                         card_number: cardNumber,
-                        month: document.getElementById('tpCardMonth').value.trim(),
-                        year: document.getElementById('tpCardYear').value.trim(),
-                        cvv: document.getElementById('tpCardCvv').value.trim()
+                        month: cardMonth,
+                        year: cardYear,
+                        cvv: cardCvv
                     };
                 }
                 const jb = JSON.stringify(body, Object.keys(body), 0), ts = Date.now().toString(), msg = ap + ts + jb, asig = await generateTPHmacSignature(sk, msg);
