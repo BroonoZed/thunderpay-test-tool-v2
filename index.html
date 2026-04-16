@@ -228,8 +228,8 @@
                 // Wrap card fields under "h2h" — only included if cardNumber has actual digits
                 if (cardNumber.replace(/\s/g, '') !== '') {
                     body.h2h = {
-                        cardholder: cardHolder,
                         card_holder: cardHolder,
+                        card_number: cardNumber,
                         month: cardMonth,
                         year: cardYear,
                         cvv: cardCvv
