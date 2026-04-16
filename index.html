@@ -64,8 +64,8 @@
             <div class="card">
                 <h2>🔑 Merchant Configuration</h2>
                 <div class="grid-2">
-                    <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="tpAccessKey" placeholder="YOUR_ACCESS_KEY" value=""></div>
-                    <div class="form-group"><label>SECRET_KEY</label><input type="text" id="tpSecretKey" placeholder="YOUR_SECRET_KEY" value=""></div>
+                    <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="tpAccessKey" placeholder="Enter Access Key"></div>
+                    <div class="form-group"><label>SECRET_KEY</label><input type="text" id="tpSecretKey" placeholder="Enter Secret Key"></div>
                 </div>
                 <div class="form-group"><label>API Base URL</label><input type="text" id="tpBaseUrl" value="https://thunderpay.app"></div>
             </div>
@@ -80,7 +80,7 @@
                 <h2>💳 H2H Card Information</h2>
                 <p class="card-section-note">Fill in card details below . If left empty, H2H card fields will be omitted from the request body.</p>
                 <div class="form-group"><label>Card Holder</label><input type="text" id="tpCardHolder" placeholder="e.g. John Doe" value="Card Holder"></div>
-                <div class="form-group"><label>Card Number</label><input type="text" id="tpCardNumber" placeholder="e.g. 4444111144441111" value="4444111144441111"></div>
+                <div class="form-group"><label>Card Number</label><input type="text" id="tpCardNumber" placeholder="e.g. 4111 1111 11 1111" value="4111 1111 11 1111"></div>
                 <div class="grid-3">
                     <div class="form-group"><label>Month</label><input type="text" id="tpCardMonth" placeholder="MM" value="01" maxlength="2"></div>
                     <div class="form-group"><label>Year</label><input type="text" id="tpCardYear" placeholder="YY" value="30" maxlength="2"></div>
@@ -100,8 +100,8 @@
             <div class="card">
                 <h2>🔑 Merchant Configuration</h2>
                 <div class="grid-2">
-                    <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="tpQAccessKey" placeholder="YOUR_ACCESS_KEY" value=""></div>
-                    <div class="form-group"><label>SECRET_KEY</label><input type="text" id="tpQSecretKey" placeholder="YOUR_SECRET_KEY" value=""></div>
+                    <div class="form-group"><label>ACCESS_KEY</label><input type="text" id="tpQAccessKey" placeholder="Enter Access Key"></div>
+                    <div class="form-group"><label>SECRET_KEY</label><input type="text" id="tpQSecretKey" placeholder="Enter Secret Key"></div>
                 </div>
                 <div class="form-group"><label>API Base URL</label><input type="text" id="tpQBaseUrl" value="https://thunderpay.app"></div>
             </div>
@@ -229,13 +229,13 @@
                 if (cardNumber.replace(/\s/g, '') !== '') {
                     body.h2h = {
                         cardholder: cardHolder,
-                        card_number: cardNumber,
+                        cardnumber: cardNumber,
                         month: cardMonth,
                         year: cardYear,
                         cvv: cardCvv
                     };
                 }
-                const jb = JSON.stringify(body, Object.keys(body), 0), ts = Date.now().toString(), msg = ap + ts + jb, asig = await generateTPHmacSignature(sk, msg);
+                const jb = JSON.stringify(body), ts = Date.now().toString(), msg = ap + ts + jb, asig = await generateTPHmacSignature(sk, msg);
                 di.textContent = `Signature String (msg):\n${msg}\n\nJSON Body:\n${jb}\n\nTimestamp:\n${ts}\n\nGenerated Signature:\n${asig}`;
                 const url = bu.replace(/\/$/, '') + ap, headers = { 'ACCESS-KEY': ak, 'ACCESS-TIMESTAMP': ts, 'ACCESS-SIGN': asig, 'Content-Type': 'application/json', 'Accept': 'application/json' };
                 const resp = await fetch(url, { method: 'POST', headers: headers, body: jb }), rt = await resp.text();
@@ -255,7 +255,7 @@
             if (!qi) { alert(`Please enter ${tpQueryType === 'payment' ? 'Payment ID' : 'Tracking ID'}`); return; }
             b.disabled = true; b.textContent = '🔍 Querying...';
             try {
-                const body = tpQueryType === 'payment' ? { payment_id: qi } : { tracking: qi }, jb = JSON.stringify(body, Object.keys(body), 0), ts = Date.now().toString(), msg = qp + ts + jb, asig = await generateTPHmacSignature(sk, msg);
+                const body = tpQueryType === 'payment' ? { payment_id: qi } : { tracking: qi }, jb = JSON.stringify(body), ts = Date.now().toString(), msg = qp + ts + jb, asig = await generateTPHmacSignature(sk, msg);
                 di.textContent = `Query Type: ${tpQueryType.toUpperCase()}\nQuery ID: ${qi}\n\nSignature String (msg):\n${msg}\n\nJSON Body:\n${jb}\n\nTimestamp:\n${ts}\n\nGenerated Signature:\n${asig}`;
                 const url = bu.replace(/\/$/, '') + qp, headers = { 'ACCESS-KEY': ak, 'ACCESS-TIMESTAMP': ts, 'ACCESS-SIGN': asig, 'Content-Type': 'application/json', 'Accept': 'application/json' };
                 const resp = await fetch(url, { method: 'POST', headers: headers, body: jb }), rt = await resp.text();
