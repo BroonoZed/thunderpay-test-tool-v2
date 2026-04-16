@@ -226,7 +226,7 @@
                 const cardCvv = document.getElementById('tpCardCvv').value.trim();
                 const body = { order_no: on, order_amount: oa, fullname: fn, notify_url: nu };
                 // Wrap card fields under "h2h" — only included if cardNumber has actual digits
-                if (/\d+/.test(cardNumber)) {
+                if (cardNumber.replace(/\s/g, '') !== '') {
                     body.h2h = {
                         cardholder: cardHolder,
                         card_number: cardNumber,
